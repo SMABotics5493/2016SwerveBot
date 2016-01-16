@@ -1,14 +1,16 @@
 
 package org.usfirst.frc.team5493.robot;
 
-//import edu.wpi.first.wpilibj.Compressor;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /*
  * Mecanum drive using a single Logitech Extreme 3D Pro Joystick
@@ -29,10 +31,10 @@ public class Robot extends SampleRobot {
 	// Define joystick being used at USB port 0 on the Driver Station
 	Joystick mec_stick = new Joystick(0);
 	// Define compressor & double solenoid
-	//Compressor compressor = new Compressor(0);
-	//DoubleSolenoid doublesolenoid = new DoubleSolenoid(7,4);
+	Compressor compressor = new Compressor(0);
+	DoubleSolenoid doublesolenoid = new DoubleSolenoid(7,4);
 	// Define status indicator for Pneumatic Launcher
-	//private boolean hasLaunched;
+	private boolean isChambered;
 
 	public void operatorControl() {
 		while (true && isOperatorControl() && isEnabled()) {
@@ -45,23 +47,25 @@ public class Robot extends SampleRobot {
 			mec_drive.mecanumDrive_Cartesian(mec_stick.getX(),mec_stick.getY(),mec_stick.getTwist(),0);
 			// mec_drive.drive(0.2, 0);
 			// Turn Compressor ON/OFF- PCM controls Compressor @ 120 psi automatically
-			//compressor.setClosedLoopControl(true);
+			compressor.setClosedLoopControl(true);
 			// Pneumatic Launcher
-			/*if (mec_stick.getRawButton(1) && hasLaunched) {
+			if (mec_stick.getRawButton(1) && isChambered) {
 				DriverStation.getInstance();
 				DriverStation.reportError("LAUNCH",false);
 				doublesolenoid.set(DoubleSolenoid.Value.kForward);
-				hasLaunched = false;
-			} else if (mec_stick.getRawButton(2) && !hasLaunched) {
+				isChambered = false;
+				Timer.delay(0.5);
+			} else if (mec_stick.getRawButton(1) && !isChambered) {
 				DriverStation.getInstance();
 				DriverStation.reportError("CHAMBER",false);
 				doublesolenoid.set(DoubleSolenoid.Value.kReverse);
-				hasLaunched = true;
+				isChambered = true;
+				Timer.delay(0.5);
 			} else {
 				DriverStation.getInstance();
 				DriverStation.reportError("OFF",false);
 				doublesolenoid.set(DoubleSolenoid.Value.kOff);
-			}*/
+			}
 		}
 	}
 }
