@@ -35,7 +35,7 @@ public class Robot extends SampleRobot {
 	DoubleSolenoid doublesolenoid = new DoubleSolenoid(7,4);
 	// Define status indicator for Pneumatic Launcher
 	private boolean isChambered;
-
+// this is a test
 	public void operatorControl() {
 		while (true && isOperatorControl() && isEnabled()) {
 			// DriverStation.getInstance().reportError("X="+mec_stick.getX(),
